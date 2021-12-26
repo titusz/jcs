@@ -1,5 +1,7 @@
 # JCS - JSON Canonicalization for Python 3
 
+[![Tests](https://github.com/titusz/jcs/actions/workflows/tests.yml/badge.svg)](https://github.com/titusz/jcs/actions/workflows/tests.yml)
+
 
 This is a Python 3 package for a [JCS (RFC 8785)](https://datatracker.ietf.org/doc/html/rfc8785) compliant JSON canonicalization .
 
