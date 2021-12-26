@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "jcs"
+version = "0.1.0"
+description = "JSC - JSON Canonicalization"
+authors = ["titusz <tp@py7.de>"]
+readme = "README.md"
+license = "Apache-2.0"
+repository = "https://github.com/titusz/jcs"
+keywords=["jcs", "json", "canonicalization", "deterministic", "serialization", "hash"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+black = { version = "*", allow-prereleases = true }
+
+
+[tool.black]
+line-length = 88
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
