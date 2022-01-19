@@ -4,7 +4,7 @@ import json
 
 
 def test_version():
-    assert jcs.__version__ == "0.1.0"
+    assert jcs.__version__ == "0.2.0"
 
 
 def test_canonicalize():
