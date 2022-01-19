@@ -26,6 +26,11 @@ data = jcs.canonicalize({"tag": 4})
 
 ## Changelog
 
+### 0.2.0 - 2022-01-19
+
+- Removed pinning to py3
+- Updated dependencies
+
 ### 0.1.0 - 2021-12-26
 
 - created `jcs` package from original code
