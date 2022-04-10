@@ -23,21 +23,3 @@ $ pip install jcs
 import jcs
 data = jcs.canonicalize({"tag": 4})
 ```
-
-## Changelog
-
-### Unreleased
-- Updated dependencies
-- Fixed project subtitle
-
-### 0.2.0 - 2022-01-19
-
-- Removed pinning to py3
-- Updated dependencies
-
-### 0.1.0 - 2021-12-26
-
-- created `jcs` package from original code
-- added poetry based packaging
-- reformated code with `black`
-- add github ci testing workflow

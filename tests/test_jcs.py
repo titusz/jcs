@@ -4,7 +4,7 @@ import json
 
 
 def test_version():
-    assert jcs.__version__ == "0.2.0"
+    assert jcs.__version__ == "0.2.1"
 
 
 def test_canonicalize():
@@ -23,13 +23,13 @@ def test_canonicalize_nums():
 
 def test_canonicalize_big_num():
 
-    n = 2 ** 53 - 1
+    n = 2**53 - 1
     c = jcs.canonicalize({"tag": n})
     assert c == b'{"tag":9007199254740991}'
     assert json.loads(c)["tag"] == n
 
     # overflow
-    n = 2 ** 53 + 1
+    n = 2**53 + 1
     c = jcs.canonicalize({"tag": n})
     assert c == b'{"tag":9007199254740992}'
     with pytest.raises(AssertionError):
