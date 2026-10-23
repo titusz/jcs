@@ -136,7 +136,7 @@ class JSONEncoder(object):
         sort_keys=True,
         indent=None,
         separators=(",", ":"),
-        default=None
+        default=None,
     ):
         """Constructor for JSONEncoder, with sensible defaults.
 

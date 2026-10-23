@@ -1,20 +1,43 @@
-[tool.poetry]
+[project]
 name = "jcs"
 version = "0.3.0"
 description = "JCS - JSON Canonicalization"
-authors = ["titusz <tp@py7.de>"]
+authors = [{ name = "titusz", email = "tp@py7.de" }]
+requires-python = ">=3.8"
 readme = "README.md"
 license = "Apache-2.0"
-repository = "https://github.com/titusz/jcs"
-keywords=["jcs", "json", "canonicalization", "deterministic", "serialization", "hash"]
+keywords = [
+    "jcs",
+    "json",
+    "canonicalization",
+    "deterministic",
+    "serialization",
+    "hash",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.6.2"
+[project.urls]
+Repository = "https://github.com/titusz/jcs"
 
-[tool.poetry.dev-dependencies]
-pytest = "*"
-black = "*"
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]
+
+[tool.uv.build-backend]
+module-root = ""
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.13.4,<0.14.0"]
+build-backend = "uv_build"
