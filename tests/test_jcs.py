@@ -21,8 +21,15 @@ def test_canonicalize():
 
 
 def test_canonicalize_int_key():
-    with pytest.raises(AttributeError):
-        assert jcs.canonicalize({4: "tag"})
+    with pytest.raises(TypeError, match="key 4 is not a string"):
+        jcs.canonicalize({4: "tag"})
+
+
+def test_canonicalize_non_string_keys_raise():
+    for key in (1, 1.5, None, True, False, (1, 2)):
+        for data in ({key: "a"}, {"a": 1, key: "b"}, [{"x": {key: "a"}}]):
+            with pytest.raises(TypeError, match="is not a string"):
+                jcs.canonicalize(data)
 
 
 def test_canonicalize_nums():

@@ -7,10 +7,14 @@ All notable changes to this project will be documented in this file. This projec
 
 - **Breaking:** `canonicalize` raises `ValueError` for integers that IEEE 754 double precision
   cannot represent exactly (e.g. `2**53 + 1`) instead of silently rounding them, which mapped
-  different values to identical output (RFC 8785, section 3.1, #1)
+  different values to identical output (RFC 8785, section 3.1, #1). Thanks to jmgurney for the
+  report and MoltyCel for the analysis
 - **Breaking:** `canonicalize(obj, utf8=False)` raises `UnicodeEncodeError` (a `ValueError`) for
   strings with lone surrogates instead of returning them, like the default `utf8=True` mode already
   did (RFC 8785, section 3.2.2.2)
+- **Breaking:** `canonicalize` raises `TypeError` for dict keys that are not strings instead of an
+  accidental `AttributeError`. Converting them like `json.dumps` would map `{1: "a"}` and
+  `{"1": "a"}` to identical output
 - Documented number handling in README
 - Added the missing license files to the repository and distributions: `LICENSE` (Apache-2.0) and
   `LICENSE.PSF`, because `jcs/_jcs.py` is derived from CPython's `json/encoder.py`

@@ -318,6 +318,18 @@ class JSONEncoder(object):
         return _iterencode(o, 0)
 
 
+def _utf16_sort_key(item):
+    """Return the UTF-16 sort key (RFC 8785, section 3.2.3) of a dict item.
+
+    Raises TypeError for keys that are not strings. Converting them like json.dumps would map
+    {1: "a"} and {"1": "a"} to identical output.
+    """
+    key = item[0]
+    if not isinstance(key, str):
+        raise TypeError("key " + repr(key) + " is not a string")
+    return key.encode("utf-16_be")
+
+
 def _make_iterencode(
     markers,
     _default,
@@ -421,7 +433,7 @@ def _make_iterencode(
             item_separator = _item_separator
         first = True
         if _sort_keys:
-            items = sorted(dct.items(), key=lambda kv: kv[0].encode("utf-16_be"))
+            items = sorted(dct.items(), key=_utf16_sort_key)
         else:
             items = dct.items()
         for key, value in items:
@@ -517,7 +529,8 @@ def canonicalize(obj, utf8=True):
     """Return the RFC 8785 canonical JSON of obj as UTF-8 bytes, or as str if utf8 is false.
 
     Raises ValueError for data without a canonical form, such as integers a double cannot
-    represent exactly or strings with lone surrogates (UnicodeEncodeError).
+    represent exactly or strings with lone surrogates (UnicodeEncodeError). Raises TypeError for
+    unsupported types and dict keys that are not strings.
     """
     textVal = JSONEncoder(sort_keys=True).encode(obj)
     # Strict UTF-8 encoding rejects lone surrogates (RFC 8785, section 3.2.2.2) in both modes
