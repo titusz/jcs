@@ -3,6 +3,8 @@
 # Install git hooks: uv run prek install
 default_install_hook_types: [pre-commit, pre-push]
 default_stages: [pre-commit]
+# Byte-exact upstream test fixtures must stay verbatim
+exclude: ^tests/data/
 repos:
   # File hygiene
   - repo: https://github.com/pre-commit/pre-commit-hooks

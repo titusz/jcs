@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file. This projec
 - Replaced black with ruff for code formatting
 - Added prek quality gates (file hygiene, ruff lint, mdformat, zizmor, coverage floor) and
   Dependabot
+- Added conformance tests: RFC 8785 Appendix B number samples, upstream reference test files, and
+  checksums of the first 100,000 values of upstream's ES6 number test file
 
 ## [0.2.1] - 2022-04-10
 
