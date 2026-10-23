@@ -514,9 +514,16 @@ def _make_iterencode(
 
 
 def canonicalize(obj, utf8=True):
+    """Return the RFC 8785 canonical JSON of obj as UTF-8 bytes, or as str if utf8 is false.
+
+    Raises ValueError for data without a canonical form, such as integers a double cannot
+    represent exactly or strings with lone surrogates (UnicodeEncodeError).
+    """
     textVal = JSONEncoder(sort_keys=True).encode(obj)
+    # Strict UTF-8 encoding rejects lone surrogates (RFC 8785, section 3.2.2.2) in both modes
+    utf8Val = textVal.encode()
     if utf8:
-        return textVal.encode()
+        return utf8Val
     return textVal
 
 

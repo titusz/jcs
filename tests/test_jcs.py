@@ -98,6 +98,39 @@ def test_canonicalize_accepted_ints_map_to_distinct_bytes():
     assert accepted == len(outputs) > 0
 
 
+# Lone high, lone low, reversed pair, and a pair split into two code points
+LONE_SURROGATES = (
+    chr(0xD800),
+    chr(0xDBFF),
+    chr(0xDC00),
+    chr(0xDFFF),
+    chr(0xDE00) + chr(0xD83D),
+    chr(0xD83D) + chr(0xDE00),
+)
+
+
+def test_canonicalize_lone_surrogates_raise():
+    for s in LONE_SURROGATES:
+        for data in (s, {"k": s}, {s: 1}, ["a" + s + "b"]):
+            for utf8 in (True, False):
+                with pytest.raises(ValueError, match="surrogates not allowed"):
+                    jcs.canonicalize(data, utf8=utf8)
+
+
+def test_canonicalize_supplementary_char():
+    s = chr(0x1F600)
+    assert jcs.canonicalize({s: s}) == b'{"\xf0\x9f\x98\x80":"\xf0\x9f\x98\x80"}'
+    assert jcs.canonicalize({s: s}, utf8=False) == '{"' + s + '":"' + s + '"}'
+
+
+def test_canonicalize_escaped_surrogates_from_json():
+    pair = json.loads('"\\ud83d\\ude00"')
+    assert jcs.canonicalize(pair, utf8=False) == '"' + chr(0x1F600) + '"'
+    for text in ('"\\ud800"', '"\\udc00"', '"\\ude00\\ud83d"'):
+        with pytest.raises(ValueError, match="surrogates not allowed"):
+            jcs.canonicalize(json.loads(text), utf8=False)
+
+
 def test_canonicalize_tuple():
     assert jcs.canonicalize(("A", "tuple", 7)) == b'["A","tuple",7]'
 
