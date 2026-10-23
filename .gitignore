@@ -1,4 +1,5 @@
 .idea
+.venv
 build
 dist
 site
@@ -6,4 +7,4 @@ site
 __pycache__
 .coverage
 coverage.xml
-
+.hypothesis
