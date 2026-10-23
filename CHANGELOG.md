@@ -18,6 +18,8 @@ All notable changes to this project will be documented in this file. This projec
 - Migrated packaging from Poetry to uv with `uv_build` backend
 - Updated CI to test Python 3.8 - 3.15 on Linux, macOS, and Windows
 - Replaced black with ruff for code formatting
+- Added a release workflow: pushing a version tag runs the quality gates and tests, then publishes
+  to PyPI via trusted publishing with attestations
 - Added prek quality gates (file hygiene, ruff lint, mdformat, zizmor, coverage floor) and
   Dependabot
 - Added conformance tests: RFC 8785 Appendix B number samples, upstream reference test files, and

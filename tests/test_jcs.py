@@ -7,7 +7,7 @@ import jcs
 
 
 def test_version():
-    assert jcs.__version__ == "0.3.0"
+    assert jcs.__version__ == metadata("jcs")["Version"]
 
 
 def test_license_metadata():

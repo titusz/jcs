@@ -64,3 +64,12 @@ uv run prek install              # Install git hooks (quality gates on commit, t
 uv run prek run --all-files      # Run all quality gates manually
 uv run pytest                    # Run tests with coverage
 ```
+
+## Releasing
+
+1. Set the version in `pyproject.toml` and `jcs/__init__.py` and date the CHANGELOG entry
+2. Commit, then push a matching tag: `git tag v0.3.0 && git push origin v0.3.0`
+
+The [release workflow](https://github.com/titusz/jcs/blob/main/.github/workflows/release.yml) runs
+the quality gates and tests, checks that the tag matches the package version, builds, and publishes
+to PyPI via trusted publishing with attestations.
