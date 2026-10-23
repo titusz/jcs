@@ -32,6 +32,7 @@ Repository = "https://github.com/titusz/jcs"
 
 [dependency-groups]
 dev = [
+    "hypothesis",
     "prek",
     "pytest",
     "pytest-cov",
@@ -56,7 +57,7 @@ max-complexity = 13
 addopts = "--cov=jcs --cov-report=term-missing:skip-covered"
 
 [tool.coverage.report]
-fail_under = 72
+fail_under = 74
 
 [build-system]
 requires = ["uv_build>=0.13.4,<0.14.0"]

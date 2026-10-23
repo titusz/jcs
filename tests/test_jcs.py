@@ -72,6 +72,10 @@ def test_canonicalize_int_beyond_double_range_raises():
 
 def test_canonicalize_bool_unchanged():
     assert jcs.canonicalize([True, False, 1, 0]) == b"[true,false,1,0]"
+    assert (
+        jcs.canonicalize({"t": True, "f": False, "n": None})
+        == b'{"f":false,"n":null,"t":true}'
+    )
 
 
 def test_canonicalize_floats_unchanged():
@@ -129,6 +133,13 @@ def test_canonicalize_escaped_surrogates_from_json():
     for text in ('"\\ud800"', '"\\udc00"', '"\\ude00\\ud83d"'):
         with pytest.raises(ValueError, match="surrogates not allowed"):
             jcs.canonicalize(json.loads(text), utf8=False)
+
+
+def test_canonicalize_top_level_scalars():
+    assert jcs.canonicalize(None) == b"null"
+    assert jcs.canonicalize(True) == b"true"
+    assert jcs.canonicalize(False) == b"false"
+    assert jcs.canonicalize("tag") == b'"tag"'
 
 
 def test_canonicalize_tuple():
