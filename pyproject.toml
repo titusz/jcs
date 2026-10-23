@@ -53,11 +53,11 @@ max-complexity = 13
 "jcs/_jcs.py" = ["C901", "PLR0124", "SIM114", "UP004", "UP030", "UP031", "UP032"]
 "tests/*" = ["S101"]
 
-[tool.pytest.ini_options]
-addopts = "--cov=jcs --cov-report=term-missing:skip-covered"
-
+# Applies to runs with --cov=jcs (CI, pre-push hook), so subsets of tests run without the floor
 [tool.coverage.report]
 fail_under = 74
+show_missing = true
+skip_covered = true
 
 [build-system]
 requires = ["uv_build>=0.13.4,<0.14.0"]

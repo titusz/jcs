@@ -62,7 +62,7 @@ values is unchanged.
 uv sync                          # Install dev dependencies
 uv run prek install              # Install git hooks (quality gates on commit, tests on push)
 uv run prek run --all-files      # Run all quality gates manually
-uv run pytest                    # Run tests with coverage
+uv run pytest --cov=jcs          # Run tests with coverage floor
 ```
 
 ## Releasing

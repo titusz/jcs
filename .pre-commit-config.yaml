@@ -55,8 +55,8 @@ repos:
         types: [python]
       - id: pytest
         name: Tests with coverage
-        entry: uv run pytest -q
+        entry: uv run pytest -q --cov=jcs
         language: system
-        types: [python]
+        always_run: true
         stages: [pre-push]
         pass_filenames: false
