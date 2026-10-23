@@ -6,6 +6,7 @@ authors = [{ name = "titusz", email = "tp@py7.de" }]
 requires-python = ">=3.8"
 readme = "README.md"
 license = "Apache-2.0"
+license-files = ["LICENSE", "LICENSE.PSF"]
 keywords = [
     "jcs",
     "json",

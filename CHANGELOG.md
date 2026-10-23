@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file. This projec
   cannot represent exactly (e.g. `2**53 + 1`) instead of silently rounding them, which mapped
   different values to identical output (RFC 8785, section 3.1, #1)
 - Documented number handling in README
+- Added the missing license files to the repository and distributions: `LICENSE` (Apache-2.0) and
+  `LICENSE.PSF`, because `jcs/_jcs.py` is derived from CPython's `json/encoder.py`
 - **Breaking:** Requires Python 3.8 or newer (dropped 3.6 and 3.7)
 - Migrated packaging from Poetry to uv with `uv_build` backend
 - Updated CI to test Python 3.8 - 3.15 on Linux, macOS, and Windows

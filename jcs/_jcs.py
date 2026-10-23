@@ -14,6 +14,14 @@
 #  See the License for the specific language governing permissions and       #
 #  limitations under the License.                                            #
 #                                                                            #
+#  This file is based on Python standard library. See LICENSE.PSF            #
+#  for details                                                               #
+#                                                                            #
+#  Changes to Python's json/encoder.py: numbers are serialized with the      #
+#  ECMAScript algorithm of jcs.ntoj, object keys are sorted by UTF-16 code   #
+#  units, the encoder defaults produce compact output without ASCII          #
+#  escaping, and canonicalize() and serialize() wrap the encoder.            #
+#                                                                            #
 ##############################################################################
 
 #################################################

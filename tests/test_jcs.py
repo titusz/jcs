@@ -1,4 +1,5 @@
 import json
+from importlib.metadata import metadata
 
 import pytest
 
@@ -7,6 +8,12 @@ import jcs
 
 def test_version():
     assert jcs.__version__ == "0.3.0"
+
+
+def test_license_metadata():
+    meta = metadata("jcs")
+    assert meta["License-Expression"] == "Apache-2.0"
+    assert meta.get_all("License-File") == ["LICENSE", "LICENSE.PSF"]
 
 
 def test_canonicalize():
