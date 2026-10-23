@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jcs"
-version = "0.2.1"
+version = "0.3.0"
 description = "JCS - JSON Canonicalization"
 authors = ["titusz <tp@py7.de>"]
 readme = "README.md"

@@ -17,10 +17,31 @@
 ##############################################################################
 
 
+def isExactDouble(value):
+    """Return True if the integer `value` is exactly representable as IEEE 754 double."""
+    try:
+        return float(value) == value
+    except OverflowError:
+        return False
+
+
 ##################################################################
 # Convert a Python double/float into an ES6/V8 compatible string #
 ##################################################################
 def convert2Es6Format(value):
+    #
+    # Python integers have arbitrary precision.  Reject those that IEEE 754 double
+    # precision cannot represent exactly instead of silently rounding them, as
+    # rounding maps different values to identical output (RFC 8785, section 3.1)
+    #
+    if isinstance(value, int) and not isExactDouble(value):
+        raise ValueError(
+            "Integer "
+            + str(value)
+            + " is not exactly representable as IEEE 754 double (RFC 8785,"
+            + " section 3.1). Use a string to preserve it or a float to accept"
+            + " rounding."
+        )
     # Convert double/float to str using the native Python formatter
     fvalue = float(value)
     #
