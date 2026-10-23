@@ -31,12 +31,31 @@ Repository = "https://github.com/titusz/jcs"
 
 [dependency-groups]
 dev = [
+    "prek",
     "pytest",
+    "pytest-cov",
     "ruff",
 ]
 
 [tool.uv.build-backend]
 module-root = ""
+
+[tool.ruff.lint]
+extend-select = ["S", "C901"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 13
+
+[tool.ruff.lint.per-file-ignores]
+# Derived from the reference implementation and CPython's json encoder, kept close to upstream
+"jcs/_jcs.py" = ["C901", "PLR0124", "SIM114", "UP004", "UP030", "UP031", "UP032"]
+"tests/*" = ["S101"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=jcs --cov-report=term-missing:skip-covered"
+
+[tool.coverage.report]
+fail_under = 64
 
 [build-system]
 requires = ["uv_build>=0.13.4,<0.14.0"]

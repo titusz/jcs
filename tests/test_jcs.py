@@ -1,6 +1,8 @@
-import pytest
-import jcs
 import json
+
+import pytest
+
+import jcs
 
 
 def test_version():
@@ -17,7 +19,7 @@ def test_canonicalize_int_key():
 
 
 def test_canonicalize_nums():
-    nums = dict(int=654635, float=26746.68731)
+    nums = {"int": 654635, "float": 26746.68731}
     assert jcs.canonicalize(nums) == b'{"float":26746.68731,"int":654635}'
 
 
