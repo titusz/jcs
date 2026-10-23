@@ -17,31 +17,47 @@
 ##############################################################################
 
 
-def isExactDouble(value):
-    """Return True if the integer `value` is exactly representable as IEEE 754 double."""
+def convertInt(value):
+    """Return the ES6 string of integer `value` if it is an exact double that reads back unchanged.
+
+    Raises ValueError otherwise. Python integers have arbitrary precision, but JSON numbers are
+    IEEE 754 doubles (RFC 8785, section 3.1). An accepted integer equals its double, so no other
+    value shares its output, and parsers like json.loads read its output back as the same integer.
+    """
     try:
-        return float(value) == value
+        fvalue = float(value)
     except OverflowError:
-        return False
+        raise ValueError(
+            "Integer with "
+            + str(value.bit_length())
+            + " bits is not exactly representable in canonical JSON, it exceeds the"
+            + " IEEE 754 double range (RFC 8785, section 3.1). Use a string to preserve it."
+        ) from None
+    es6 = convert2Es6Format(fvalue)
+    #
+    # Parsers like json.loads read an exponent as float and plain digits as integer
+    #
+    readBack = fvalue if "e" in es6 else int(es6)
+    if fvalue != value or readBack != value:
+        raise ValueError(
+            "Integer "
+            + str(value)
+            + " is not exactly representable in canonical JSON (RFC 8785, section 3.1):"
+            + " its nearest IEEE 754 double "
+            + str(int(fvalue))
+            + " serializes as "
+            + es6
+            + ". Use a string to preserve it or a float to accept rounding."
+        )
+    return es6
 
 
 ##################################################################
 # Convert a Python double/float into an ES6/V8 compatible string #
 ##################################################################
 def convert2Es6Format(value):
-    #
-    # Python integers have arbitrary precision.  Reject those that IEEE 754 double
-    # precision cannot represent exactly instead of silently rounding them, as
-    # rounding maps different values to identical output (RFC 8785, section 3.1)
-    #
-    if isinstance(value, int) and not isExactDouble(value):
-        raise ValueError(
-            "Integer "
-            + str(value)
-            + " is not exactly representable as IEEE 754 double (RFC 8785,"
-            + " section 3.1). Use a string to preserve it or a float to accept"
-            + " rounding."
-        )
+    if isinstance(value, int):
+        return convertInt(value)
     # Convert double/float to str using the native Python formatter
     fvalue = float(value)
     #

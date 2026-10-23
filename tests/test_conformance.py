@@ -129,21 +129,25 @@ def es6_test_values():
 
 @pytest.mark.parametrize(("ieee_hex", "expected"), APPENDIX_B)
 def test_rfc8785_appendix_b(ieee_hex, expected):
+    """Each Appendix B double serializes to its expected ES6 string."""
     assert jcs.canonicalize(bits_to_float(int(ieee_hex, 16))) == expected.encode()
 
 
 @pytest.mark.parametrize("ieee_hex", APPENDIX_B_OUT_OF_RANGE)
 def test_rfc8785_appendix_b_out_of_range(ieee_hex):
+    """NaN and Infinity raise ValueError."""
     with pytest.raises(ValueError):
         jcs.canonicalize(bits_to_float(int(ieee_hex, 16)))
 
 
 def test_upstream_fixtures_present():
+    """All upstream fixtures are present, so none is skipped silently."""
     assert FIXTURES == ["arrays", "french", "structures", "unicode", "values", "weird"]
 
 
 @pytest.mark.parametrize("name", FIXTURES)
 def test_upstream_fixture(name):
+    """Each upstream input canonicalizes to its expected output, which matches its hex dump."""
     data = json.loads((DATA / "input" / f"{name}.json").read_bytes())
     expected = (DATA / "output" / f"{name}.json").read_bytes()
     assert jcs.canonicalize(data) == expected
@@ -151,6 +155,7 @@ def test_upstream_fixture(name):
 
 
 def test_es6_number_test_file_checksums():
+    """Serialized numbers reproduce upstream's published checksums of the ES6 test file."""
     digest = hashlib.sha256()
     values = es6_test_values()
     for line_count in range(1, max(ES6_CHECKSUMS) + 1):

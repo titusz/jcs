@@ -5,10 +5,14 @@ All notable changes to this project will be documented in this file. This projec
 
 ## [0.3.0] - Unreleased
 
-- **Breaking:** `canonicalize` raises `ValueError` for integers that IEEE 754 double precision
-  cannot represent exactly (e.g. `2**53 + 1`) instead of silently rounding them, which mapped
-  different values to identical output (RFC 8785, section 3.1, #1). Thanks to jmgurney for the
-  report and MoltyCel for the analysis
+- **Breaking:** `canonicalize` raises `ValueError` for integers that a double cannot represent
+  exactly or whose canonical form reads back as a different integer (e.g. `2**53 + 1`, `2**60`, or
+  `1152921504606847000`) instead of silently rounding them, which mapped different values to
+  identical output (RFC 8785, section 3.1, #1). Canonical JSON from JavaScript and other double
+  based implementations can contain such integers; parse it with `json.loads(text, parse_int=float)`
+  to get the same bytes as before. Thanks to jmgurney for the report and MoltyCel for the analysis
+- **Breaking:** `canonicalize` raises `ValueError` instead of `OverflowError` for integers beyond
+  the IEEE 754 double range
 - **Breaking:** `canonicalize(obj, utf8=False)` raises `UnicodeEncodeError` (a `ValueError`) for
   strings with lone surrogates instead of returning them, like the default `utf8=True` mode already
   did (RFC 8785, section 3.2.2.2)
@@ -29,7 +33,7 @@ All notable changes to this project will be documented in this file. This projec
 - Added conformance tests: RFC 8785 Appendix B number samples, upstream reference test files, and
   checksums of the first 100,000 values of upstream's ES6 number test file
 - Added property-based tests with Hypothesis: value preservation, stable output, UTF-16 key order,
-  insertion order independence, and rejection of inexact integers and lone surrogates
+  insertion order independence, exact integer read-back, and rejection of lone surrogates
 
 ## [0.2.1] - 2022-04-10
 

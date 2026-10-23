@@ -326,7 +326,7 @@ def _utf16_sort_key(item):
     """
     key = item[0]
     if not isinstance(key, str):
-        raise TypeError("key " + repr(key) + " is not a string")
+        raise TypeError("key of type " + type(key).__name__ + " is not a string")
     return key.encode("utf-16_be")
 
 
@@ -528,9 +528,9 @@ def _make_iterencode(
 def canonicalize(obj, utf8=True):
     """Return the RFC 8785 canonical JSON of obj as UTF-8 bytes, or as str if utf8 is false.
 
-    Raises ValueError for data without a canonical form, such as integers a double cannot
-    represent exactly or strings with lone surrogates (UnicodeEncodeError). Raises TypeError for
-    unsupported types and dict keys that are not strings.
+    Raises ValueError for data without a canonical form, such as integers that are not exact doubles
+    or do not read back unchanged, or strings with lone surrogates (UnicodeEncodeError). Raises
+    TypeError for unsupported types and dict keys that are not strings.
     """
     textVal = JSONEncoder(sort_keys=True).encode(obj)
     # Strict UTF-8 encoding rejects lone surrogates (RFC 8785, section 3.2.2.2) in both modes
