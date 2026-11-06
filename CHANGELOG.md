@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. This project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - Unreleased
+## [0.3.0] - 2026-11-06
 
 - **Breaking:** `canonicalize` raises `ValueError` for integers that a double cannot represent
   exactly or whose canonical form reads back as a different integer (e.g. `2**53 + 1`, `2**60`, or
