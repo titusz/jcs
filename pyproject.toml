@@ -1,20 +1,64 @@
-[tool.poetry]
+[project]
 name = "jcs"
-version = "0.2.1"
+version = "0.3.0"
 description = "JCS - JSON Canonicalization"
-authors = ["titusz <tp@py7.de>"]
+authors = [{ name = "titusz", email = "tp@py7.de" }]
+requires-python = ">=3.8"
 readme = "README.md"
 license = "Apache-2.0"
-repository = "https://github.com/titusz/jcs"
-keywords=["jcs", "json", "canonicalization", "deterministic", "serialization", "hash"]
+license-files = ["LICENSE", "LICENSE.PSF"]
+keywords = [
+    "jcs",
+    "json",
+    "canonicalization",
+    "deterministic",
+    "serialization",
+    "hash",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.6.2"
+[project.urls]
+Repository = "https://github.com/titusz/jcs"
 
-[tool.poetry.dev-dependencies]
-pytest = "*"
-black = "*"
+[dependency-groups]
+dev = [
+    "hypothesis",
+    "prek",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
+[tool.uv.build-backend]
+module-root = ""
+
+[tool.ruff.lint]
+extend-select = ["S", "C901"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 13
+
+[tool.ruff.lint.per-file-ignores]
+# Derived from the reference implementation and CPython's json encoder, kept close to upstream
+"jcs/_jcs.py" = ["C901", "PLR0124", "SIM114", "UP004", "UP030", "UP031", "UP032"]
+"tests/*" = ["S101"]
+
+# Applies to runs with --cov=jcs (CI, pre-push hook), so subsets of tests run without the floor
+[tool.coverage.report]
+fail_under = 74
+show_missing = true
+skip_covered = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.13.4,<0.14.0"]
+build-backend = "uv_build"
